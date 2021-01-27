@@ -4,8 +4,9 @@ String.prototype.times = function(n) {
     return Array.prototype.join.call({length: n+1}, this);
 };
 var star = '<div id="boxel" class="box"></div>'.times(100);
+var initWindowHeight, currentWindowHeight = $(window).height();
 $('#col_cont').append(star);
-for(i=0; i<30; i++){
+for(i=0; i<Math.ceil($(window).height()/10)-3; i++){
  $('#row_cont').append($("#col_cont").clone()); 
 }
 var colorSet = ["red","black","green","yellow","blue"];
@@ -69,5 +70,33 @@ $(".custom-menu li").click(function(){
     // Hide it AFTER the action was triggered
     //$(".custom-menu").hide(100);
   });
+
+$( window ).resize(function() {
+    var resizedheight = $(window).height();
+    if(currentWindowHeight > resizedheight){
+        var diff = currentWindowHeight - resizedheight;
+        console.log(currentWindowHeight, resizedheight);
+        if(diff != 0){
+            diff = (diff > 10) ? diff/10: 1;
+            for(i=0; i<Math.ceil(diff); i++) {
+                    console.log('EEEEEEEE');
+                    $('#row_cont').children().last().remove();        
+                }
+            currentWindowHeight = $(window).height()  
+        }             
+    }
+    else{
+        var diff = resizedheight - currentWindowHeight;
+        console.log(currentWindowHeight, resizedheight);
+        if(diff != 0){
+            diff = (diff > 10) ? diff/10: 1;
+            for(i=0; i<Math.floor(diff); i++) {
+                console.log('EEEEEEEE');
+                $('#row_cont').append($("#col_cont").clone());       
+            } 
+        currentWindowHeight = $(window).height()
+        }
+    }
+});
 
 });
